@@ -283,3 +283,10 @@ option{
   gap: 10px;
 }
 
+
+.snackbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

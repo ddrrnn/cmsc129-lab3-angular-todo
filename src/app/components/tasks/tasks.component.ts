@@ -9,6 +9,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { SnackbarService } from '../../services/snackbar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackbarComponent } from '../mat-snackbar/mat-snackbar.component';
+
 
 @Component({
   selector: 'app-tasks',
@@ -30,6 +33,7 @@ export class TasksComponent {
   showToast: boolean = false;
 
   constructor(private taskService: TaskService, private dialog: MatDialog, private snackbarService: SnackbarService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +43,17 @@ export class TasksComponent {
   deleteTask(task: Task) {
     this.taskService.deleteTask(task.id).subscribe(() => {
       this.tasks = this.tasks.filter(t => t.id !== task.id);
-      this.snackbarService.showMessage('Task deleted successfully!');
+  
+      const snackBarRef = this.snackBar.openFromComponent(MatSnackbarComponent, {
+        duration: 3000,
+        data: { message: 'Task deleted', actionText: 'Undo' }
+      });
+  
+      snackBarRef.onAction().subscribe(() => {
+        this.taskService.addTask(task).subscribe((restoredTask) => {
+          this.tasks.push(restoredTask);
+        });
+      });
     });
   }
   

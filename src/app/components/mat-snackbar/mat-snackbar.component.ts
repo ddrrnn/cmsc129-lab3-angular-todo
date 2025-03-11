@@ -9,10 +9,10 @@ import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar'
 export class MatSnackbarComponent {
   constructor(
     public snackBarRef: MatSnackBarRef<MatSnackbarComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) public data: { message: string }
+    @Inject(MAT_SNACK_BAR_DATA) public data: { message: string, actionText: string }
   ) {}
 
-  closeSnackbar() {
-    this.snackBarRef.dismiss();
+  onUndo() {
+    this.snackBarRef.dismissWithAction(); 
   }
 }

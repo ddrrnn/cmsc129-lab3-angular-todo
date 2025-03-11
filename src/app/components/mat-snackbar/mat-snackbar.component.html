@@ -1,5 +1,4 @@
-<div class="snackbar-container">
-    <span>{{ data.message }}</span>
-    <button mat-button color="accent" (click)="closeSnackbar()">Close</button>
-  </div>
-  
+<div class="snackbar-content">
+  <span>{{ data.message }}</span>
+  <button mat-button (click)="onUndo()">{{ data.actionText }}</button>
+</div>
