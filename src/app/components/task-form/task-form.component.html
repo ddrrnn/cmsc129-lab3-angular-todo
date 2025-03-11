@@ -1,0 +1,35 @@
+<form (ngSubmit)="onSubmit()">
+    <div class="form-control">
+      <label for="text">Task</label>
+      <input type="text" name="text" [(ngModel)]="taskData.text" id="text" placeholder="Add Task">
+    </div>
+  
+    <div class="date-time-container">
+        <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="taskData.day" name="dueDate">
+            <mat-hint>MM-DD-YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="time-picker">
+            <mat-label>Choose a time</mat-label>
+            <input matInput [(ngModel)]="taskData.time" name="taskTime" [ngxMatTimepicker]="timepicker">
+            <ngx-mat-timepicker #timepicker></ngx-mat-timepicker>  
+        </mat-form-field>     
+    </div>
+    <div class="form-control">
+      <label class="priority-label" for="priority">Priority</label>
+      <select name="priority" class="priority" [(ngModel)]="taskData.priority">
+        <option class="high-option" value="High">High</option>
+        <option class="mid-option" value="Medium">Medium</option>
+        <option class="low-option" value="Low">Low</option>
+      </select>
+    </div>
+  
+    <div class="mat-dialog-actions">
+      <button class="cancel-btn" *ngIf="showCancelButton" type="button" (click)="cancel.emit()">Cancel</button>
+      <button class="save-btn" type="submit">Save</button>
+    </div>
+  </form>
+  

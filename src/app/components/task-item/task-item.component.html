@@ -1,0 +1,21 @@
+<div class="task" [ngClass]="task.priority.toLowerCase()">
+    <div class="task-header">
+      <input class="checkbox" title="Mark as completed" type="checkbox" [(ngModel)]="task.completed" (click)="onCheckbox()" />
+      <span [class.completed]="task.completed"><h3>{{ task.text }}</h3></span>
+
+
+      <div class="task-icons">
+        <fa-icon title="Edit task" class="icon-edit" (click)="onEdit()" [icon]="faEdit"></fa-icon>
+        <fa-icon title="Delete task" class="icon-delete" (click)="onDelete(task)" [icon]="faTimes"></fa-icon>
+      </div>
+    </div>
+  
+    <div class="day-time">
+      <p class="task-day">{{ task.day }}</p>
+      <p class="task-time">{{ task.time }}</p>
+  
+    </div>
+   
+    
+  </div>
+  

@@ -1,0 +1,4 @@
+<div class="container">
+<h1 class="edit-header">Edit Task</h1>
+<app-task-form [taskData]="data.task" [showCancelButton]="true" (submitTask)="onSave($event)" (cancel)="onCancel()"></app-task-form>
+</div>
