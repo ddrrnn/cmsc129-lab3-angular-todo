@@ -1,10 +1,10 @@
 <app-add-task (onAddTask)="addTask($event)"></app-add-task>
-<app-task-item 
-*ngFor = "let task of tasks" 
-[task]="task"
-(onDeleteTask)="deleteTask(task)"
-(onToggleReminder)="toggleReminder(task)"
-(onEditTask)="editTask($event)"
->
-</app-task-item>
+<app-sort-tasks (sortChange)="onSortChange($event)"></app-sort-tasks>
 
+<app-task-item 
+  *ngFor="let task of tasks" 
+  [task]="task"
+  (onDeleteTask)="deleteTask(task)"
+  (onToggleReminder)="toggleReminder(task)"
+  (onEditTask)="editTask($event)">
+</app-task-item>

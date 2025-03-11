@@ -5,4 +5,5 @@ export interface Task {
     completed: boolean;
     priority: string;
     time: string;
+    dateAdded?: string;
 }

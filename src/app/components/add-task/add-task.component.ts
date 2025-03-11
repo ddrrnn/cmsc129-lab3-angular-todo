@@ -44,18 +44,24 @@ export class AddTaskComponent {
       return;
     }
 
-      const newTask: Task = {
-        id: Math.floor(Math.random() * 10000).toString(), 
-        text: this.taskData.text,
-        day: this.taskData.day,
-        time: this.taskData.time,
-        completed: false,
-        priority: this.taskData.priority
-      };
- 
+    if (!this.taskData.text || !this.taskData.day || !this.taskData.time || !this.taskData.priority) {
+      alert('All fields are required!');
+      return;
+    }
+
+    const newTask: Task = {
+      id: Math.floor(Math.random() * 10000).toString(), 
+      text: this.taskData.text,
+      day: this.taskData.day,
+      time: this.taskData.time,
+      completed: false,
+      priority: this.taskData.priority,
+      dateAdded: new Date().toISOString() 
+    };
+  
   
     
-    this.onAddTask.emit(task);
+    this.onAddTask.emit(newTask);
 
     this.taskData = {
       id: '',
@@ -63,7 +69,7 @@ export class AddTaskComponent {
       day: '',
       completed: false,
       priority: 'Low',
-      time: ''
+      time: '',
     };
   }
 }

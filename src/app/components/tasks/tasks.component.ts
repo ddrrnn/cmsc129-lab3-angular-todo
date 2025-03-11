@@ -11,6 +11,7 @@ import { EditTaskComponent } from '../edit-task/edit-task.component';
 import { SnackbarService } from '../../services/snackbar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackbarComponent } from '../mat-snackbar/mat-snackbar.component';
+import { SortTasksComponent } from '../sort-tasks/sort-tasks.component';
 
 
 @Component({
@@ -21,7 +22,8 @@ import { MatSnackbarComponent } from '../mat-snackbar/mat-snackbar.component';
     CommonModule, 
     TaskItemComponent, 
     AddTaskComponent, 
-    MatDialogModule
+    MatDialogModule,
+    SortTasksComponent
   ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
@@ -41,21 +43,32 @@ export class TasksComponent {
   }
 
   deleteTask(task: Task) {
-    this.taskService.deleteTask(task.id).subscribe(() => {
-      this.tasks = this.tasks.filter(t => t.id !== task.id);
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: { message: 'Are you sure you want to delete this task?' }
+    });
   
-      const snackBarRef = this.snackBar.openFromComponent(MatSnackbarComponent, {
-        duration: 3000,
-        data: { message: 'Task deleted', actionText: 'Undo' }
-      });
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.taskService.deleteTask(task.id).subscribe(() => {
+          this.tasks = this.tasks.filter(t => t.id !== task.id);
   
-      snackBarRef.onAction().subscribe(() => {
-        this.taskService.addTask(task).subscribe((restoredTask) => {
-          this.tasks.push(restoredTask);
+          // Show snackbar with Undo option
+          const snackBarRef = this.snackBar.openFromComponent(MatSnackbarComponent, {
+            duration: 3000,
+            data: { message: 'Task deleted', actionText: 'Undo' }
+          });
+  
+          snackBarRef.onAction().subscribe(() => {
+            this.taskService.addTask(task).subscribe((restoredTask) => {
+              this.tasks.push(restoredTask);
+            });
+          });
         });
-      });
+      }
     });
   }
+  
   
 
 
@@ -87,6 +100,20 @@ export class TasksComponent {
         this.updateTask(result);
       }
     });
+  }
+
+  onSortChange(sortBy: string) {
+    if (sortBy === 'dateAdded') {
+      this.tasks.sort((a, b) => new Date(a.dateAdded!).getTime() - new Date(b.dateAdded!).getTime());
+    } else if (sortBy === 'dueDate') {
+      this.tasks.sort((a, b) => new Date(a.day!).getTime() - new Date(b.day!).getTime());
+    } else if (sortBy === 'priority') {
+      const priorityOrder: { [key: string]: number } = { high: 3, medium: 2, low: 1 };
+  
+      this.tasks.sort((a, b) => 
+        (priorityOrder[b.priority?.toLowerCase() || 'low'] - priorityOrder[a.priority?.toLowerCase() || 'low'])
+      );
+    }
   }
   
 }
