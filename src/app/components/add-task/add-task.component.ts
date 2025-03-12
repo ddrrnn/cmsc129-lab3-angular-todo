@@ -59,7 +59,7 @@ export class AddTaskComponent {
       dateAdded: new Date().toISOString() 
     };
   
-  
+
     
     this.onAddTask.emit(newTask);
 

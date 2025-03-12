@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { Router } from 'express';
-import { ButtonComponent } from './components/button/button.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { TaskItemComponent } from './components/task-item/task-item.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,7 +22,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [HeaderComponent, RouterOutlet, ButtonComponent,
+  imports: [HeaderComponent, RouterOutlet,
             TasksComponent, TaskItemComponent, FontAwesomeModule,
             HttpClientModule, FormsModule, MatDialogModule,
             MatDatepickerModule, MatFormFieldModule, MatInputModule,

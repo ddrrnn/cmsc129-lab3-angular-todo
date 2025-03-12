@@ -25,7 +25,7 @@ export class TaskItemComponent {
   @Output() taskCompleted: EventEmitter<Task> = new EventEmitter();
 
   faTimes = faTimes;
-  faEdit = faEdit; 
+  faEdit = faEdit; //icons
 
   onDelete(task: any){
     this.onDeleteTask.emit(task);
@@ -42,7 +42,6 @@ export class TaskItemComponent {
     });
   }
   
-
   onEdit() {
     this.onEditTask.emit(this.task);
   }

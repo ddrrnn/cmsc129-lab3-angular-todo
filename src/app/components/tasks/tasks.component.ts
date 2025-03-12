@@ -31,7 +31,6 @@ import { SortTasksComponent } from '../sort-tasks/sort-tasks.component';
 export class TasksComponent {
   tasks: Task[] = [];
   deletedTask: Task | null = null;
-  deletedTaskIndex: number | null = null;
   showToast: boolean = false;
 
   constructor(private taskService: TaskService, private dialog: MatDialog, private snackbarService: SnackbarService,
@@ -39,11 +38,11 @@ export class TasksComponent {
   ) {}
 
   ngOnInit(): void {
-    this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks));
+    this.taskService.getTasks().subscribe((tasks) => (this.tasks = tasks)); //update once data is received
   }
 
   deleteTask(task: Task) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, { //deletion modal
       width: '400px',
       data: { message: 'Are you sure you want to delete this task?' }
     });
@@ -53,13 +52,12 @@ export class TasksComponent {
         this.taskService.deleteTask(task.id).subscribe(() => {
           this.tasks = this.tasks.filter(t => t.id !== task.id);
   
-          // Show snackbar with Undo option
-          const snackBarRef = this.snackBar.openFromComponent(MatSnackbarComponent, {
+          const snackBarRef = this.snackBar.openFromComponent(MatSnackbarComponent, { //snackbar
             duration: 3000,
             data: { message: 'Task deleted', actionText: 'Undo' }
-          });
+          }); 
   
-          snackBarRef.onAction().subscribe(() => {
+          snackBarRef.onAction().subscribe(() => { //runs when undo is clicked
             this.taskService.addTask(task).subscribe((restoredTask) => {
               this.tasks.push(restoredTask);
             });
@@ -69,12 +67,9 @@ export class TasksComponent {
     });
   }
   
-  
-
-
-  toggleReminder(task: Task) {
+  toggleComplete(task: Task) {
     task.completed = !task.completed;
-    this.taskService.updateTaskReminder(task).subscribe();
+    this.taskService.updateTask(task).subscribe();
   }
 
   addTask(task: Task) {

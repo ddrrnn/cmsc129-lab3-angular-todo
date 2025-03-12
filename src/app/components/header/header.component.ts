@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -12,7 +11,5 @@ import { ButtonComponent } from '../button/button.component';
 export class HeaderComponent {
   title: string = 'To Do';
 
-  toggleAddTask(){
-    console.log('toggle');
-  }
+  
 }
